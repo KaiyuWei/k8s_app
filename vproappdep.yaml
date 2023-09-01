@@ -21,6 +21,7 @@ spec:
         - name: vproapp-port
           containerPort: 8080
       initContainers:
+        # these init containers ensure that the app pod starts after the db service is ready
         - name: init-mydb
           image: busybox
           command: ['sh', '-c', 'until nslookup vprodb; do echo waiting for mydb; sleep 2; done;']
