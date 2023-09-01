@@ -7,7 +7,7 @@ spec:
   selector:
     app: vpromc  # label of pods that this service serves
   ports:
-  - port: 11211
-    targetPort: vpromc-port
-    protocol: TCP
+    - port: 11211
+      targetPort: vpromc-port
+      protocol: TCP
   type: ClusterIP
