@@ -6,7 +6,7 @@ spec:
   selector:
     app: vpromq01
   ports:
-  - port: 15672
-    targetPort: vpromq01-port
-    protocol: TCP
+    - port: 15672
+      targetPort: vpromq01-port
+      protocol: TCP
   type: ClusterIP
