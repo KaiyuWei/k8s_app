@@ -15,20 +15,20 @@ spec:
         app: vprodb
     spec:
       containers:
-      - name: vprodb
-        image: vprofile/vprofiledb:V1
-        volumeMounts:
-          - mountPath: /var/lib/mysql
-            name: vpro-db-data  # the volume we created below
-        ports:
-          - name: vprodb-port
-            containerPort: 3306  # the default port for msql
-        env:
-          - name: MYSQL_ROOT_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: app-secret
-                key: db-pass
+        - name: vprodb
+          image: vprofile/vprofiledb:V1
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: vpro-db-data  # the volume we created below
+          ports:
+            - name: vprodb-port
+              containerPort: 3306  # the default port for msql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: db-pass
       nodeSelector:
         zone: us-east-1a  # this pod only runs in the nodes in this zone
       volumes:
