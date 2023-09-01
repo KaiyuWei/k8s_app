@@ -17,6 +17,9 @@ spec:
       containers:
       - name: vprodb
         image: vprofile/vprofiledb:V1
+        volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: vpro-db-data  # the volume we created below
         ports:
           - name: vprodb-port
             containerPort: 3306  # the default port for msql
@@ -26,9 +29,24 @@ spec:
               secretKeyRef:
                 name: app-secret
                 key: db-pass
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
       nodeSelector:
         zone: us-east-1a  # this pod only runs in the nodes in this zone
+      volumes:
+        - name: vpro-db-data
+          awsElasticBlockStore:
+            volumeID: vol-000c860b7dc49f3fb
+            fsType: ext4
+      # The "lost+found" directory is generated automatically by the ext4 filesystem used by convoy as
+      # the default when formatting volumes. It's an inherent thing of ext filesystems for recovering 
+      # filesystem from inconsistency in case of unclean shutdown or power failure. This will cause an
+      # error of "directory is not empty", and the mysql service will not start. So we need this init
+      # container to remove the file before the "main container" starts.
+      # The main container will stop after the init container stops
+      initContainers:
+        - name: busybox
+          image: busybox:latest
+          args: ["rm", "-rf", "/var/lib/mysql/lost+found"]
+          volumeMounts:
+            - name: vpro-db-data
+              mountPath: /var/lib/mysql
+        
