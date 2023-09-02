@@ -22,7 +22,7 @@ spec:
               name: vpro-db-data  # the volume we created below
           ports:
             - name: vprodb-port
-              containerPort: 3306  # the default port for msql
+              containerPort: 3306  # the default port for mysql
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
