@@ -34,7 +34,7 @@ spec:
       volumes:
         - name: vpro-db-data
           awsElasticBlockStore:
-            volumeID: vol-000c860b7dc49f3fb
+            volumeID: vol-09f983a5b5901523d
             fsType: ext4
       # The "lost+found" directory is generated automatically by the ext4 filesystem used by convoy as
       # the default when formatting volumes. It's an inherent thing of ext filesystems for recovering 
